@@ -1,4 +1,14 @@
+#
+# USER INFO SQL
+#
+
+DROP TABLE IF EXISTS `users_groups`;
+DROP TABLE IF EXISTS `users_friends`;
+DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `groups`;
+DROP TABLE IF EXISTS `login_attempts`;
+
+
 
 #
 # Table structure for table 'groups'
@@ -21,7 +31,6 @@ INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 
 
 
-DROP TABLE IF EXISTS `users`;
 
 #
 # Table structure for table 'users'
@@ -62,8 +71,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
      ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
 
-
-DROP TABLE IF EXISTS `users_groups`;
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
+     ('2','127.0.0.1','gchamoun','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','gchamoun@samford.edu','',NULL,'1268889823','1268889823','1', 'George','Chamoun','Samford','0');
 
 #
 # Table structure for table 'users_groups'
@@ -86,7 +95,6 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
      (2,1,2);
 
 
-DROP TABLE IF EXISTS `login_attempts`;
 
 #
 # Table structure for table 'login_attempts'
@@ -99,3 +107,25 @@ CREATE TABLE `login_attempts` (
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+#
+# Table structure for table 'users_friends'
+#
+
+CREATE TABLE `users_friends` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `friend_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+    CONSTRAINT `fk_friend_id` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `users_friends` (`id`, `user_id`, `friend_id`) VALUES
+     (1,1,2),
+          (2,2,1);
